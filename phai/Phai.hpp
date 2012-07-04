@@ -8,7 +8,10 @@
 #ifndef PHAI_HPP_
 #define PHAI_HPP_
 
+#include <Magick++.h>
 namespace phai {
+
+using namespace Magick;
 
 class Phai {
 public:
