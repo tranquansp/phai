@@ -1,0 +1,5 @@
+ - Run 'make' to build histmatch.cpp to transferlib.so 
+
+ - Run 'make phai.bin' to build file main to phai.bin
+
+
