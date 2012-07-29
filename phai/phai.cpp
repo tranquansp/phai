@@ -24,7 +24,7 @@
 using namespace Magick;
 using namespace std;
 
-int main(int argc,char **argv) {
+extern "C" int trans(char *argv1,char *argv2,char *argv3){
 	if(!strcmp(argv[1],"--help"))
 	{
 		cout << "Transfer Color Library  \n";
