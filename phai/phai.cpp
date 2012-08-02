@@ -25,7 +25,7 @@ using namespace Magick;
 using namespace std;
 
 extern "C" int trans(char *argv1,char *argv2,char *argv3){
-	if(!strcmp(argv[1],"--help"))
+	if(!strcmp(argv1,"--help"))
 	{
 		cout << "Transfer Color Library  \n";
 		cout << "Version: TransColor beta http://www.code.google.com/p/phai \n";
@@ -49,16 +49,16 @@ extern "C" int trans(char *argv1,char *argv2,char *argv3){
 		return 0;
 	}
 
-	if(!strcmp(argv[1],"+H"))
+	if(!strcmp(argv1,"+H"))
 	{
 		/*
 		//Phuong phap histogram Matching :
 		*/
-		transfer_color(argv[1],argv[2],argv[3]);
+		transfer_color(argv1,argv2,argv3);
 		cout << "match successfully" ;
 		return 0;
 	}
-	if(!strcmp(argv[1],"-t"))
+	if(!strcmp(argv1,"-t"))
 	{
 	//
 	// I = Tsrc ·Rsrc ·Ssrc ·Stgt ·Rtgt ·Ttgt ·Itgt
@@ -73,10 +73,10 @@ extern "C" int trans(char *argv1,char *argv2,char *argv3){
 	double resultSRC[4][4],resultTGT[4][4],resultMul[4][4];
 
 	// Get Tsrc ·Rsrc ·Ssrc from Source Image
-	getSrcInfo(resultSRC,Tsrc,Rsrc,Ssrc,argv[1]);
+	getSrcInfo(resultSRC,Tsrc,Rsrc,Ssrc,argv1);
 
 	// Get Stgt ·Rtgt ·Ttgt from Target Image
-	getTgtInfo(resultTGT,Ttgt,Rtgt,Stgt,argv[2]);
+	getTgtInfo(resultTGT,Ttgt,Rtgt,Stgt,argv2);
 
 	getMatinfo(Tsrc);
 	getMatinfo(Rsrc);
@@ -157,7 +157,7 @@ extern "C" int trans(char *argv1,char *argv2,char *argv3){
 
 		}
 	}
-	image.write(argv[3]);
+	image.write(argv3);
 	return 0;
 	}
 
