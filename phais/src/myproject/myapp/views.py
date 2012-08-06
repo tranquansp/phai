@@ -19,10 +19,10 @@ def list(request):
             newdoc = Document(docfile = request.FILES['docfile'])
             #save information in database
             newdoc.save()
-            libc = ctypes.CDLL("myproject/src/myproject/media/lib/lib.so")
+            libc = ctypes.CDLL("./media/lib/lib.so")
             #call to address library
             #/home/ht/workspace/myproject/src/myproject/media/documents
-            libc.transfer_color("/myproject/src/myproject/media/documents/rose.jpg","/myproject/src/myproject/media/documents/blue.jpg","/myproject/src/myproject/media/documents/test.jpg")
+            libc.transfer_color("./media/documents/rose.jpg","./media/documents/blue.jpg","./media/documents/test.jpg")
             #call function in library
             #document = Document(docfile='documents/tem.jpg')
             #document.save()
