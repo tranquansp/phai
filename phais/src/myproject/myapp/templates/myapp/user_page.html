@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+	{% block title %} {{user.username}}'s page {% endblock %}
+	{% block head %} {{user.username}}'s page{% endblock %}
+	{% block content %}
+		<ul>
+			<a href="upload"> Upload new image</a>	
+			<a href="change_password">Change password</a>
+			<a href="change_email">Change email</a>
+		</ul>
+		<br>
+		<br>
+		<br>
+		{% if images_list %}
+			<ul>
+			{% for image in images_list %}
+				<li><a href={{image.imgfile.url}}> {{image.imgfile.url}} </a></li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<p> No image found for user {{user.username}}! </p>
+		{% endif %}
+	{% endblock %}
