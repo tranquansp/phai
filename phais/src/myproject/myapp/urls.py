@@ -7,5 +7,6 @@ urlpatterns = patterns('myapp.views',
 	url(r'^user/(\w+)/$', 'user_page', name='user_page'),
 	url(r'^user/(\w+)/upload$', 'upload_page', name='upload_page'),
 	url(r'^logout/$', 'logout_page', name='logout_page'),
+	url(r'^user/(\w+)/change_pw$', 'change_password', name='change_password'),
 	#url(r'^process/$', 'process', name='process'),
 )

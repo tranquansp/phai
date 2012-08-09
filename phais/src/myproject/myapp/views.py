@@ -19,17 +19,17 @@ notAuthenticatedPage = '''
 <html>
 	<body>
 		<p>User is not authenticated. Please <a href='/'>login</a>
-			</body>
-	</html>
+	</body>
+</html>
 '''
 # user_page takes 2 argument, request and username as a string
 def user_page(request, username):
 	if(request.user.is_authenticated()):
 		# get the list of images that are belonged to username
-		log_in_user = User.objects.get(username=username)
-		images_list = Image.objects.filter(user=log_in_user)
+		# log_in_user = User.objects.get(username=username)
+		images_list = Image.objects.filter(user=request.user)
 		return render_to_response('myapp/user_page.html',
-							{'user':log_in_user, 'images_list':images_list},
+							{'user':request.user, 'images_list':images_list},
 							context_instance = RequestContext(request)
 						)
 	else:
@@ -52,6 +52,7 @@ def upload_page(request, username):
             		#/home/ht/workspace/myproject/src/myproject/media/documents
             		# libc.transfer_color("./media/documents/rose.jpg","./media/documents/blue.jpg","./media/documents/test.jpg")
             		# Redirect to the document list after POST
+					
 					# since user_page takes 2 arguments, reverse() needs to pass username to args field
 					return HttpResponseRedirect(reverse('myapp.views.user_page', args=[username]))
 		else:
@@ -79,23 +80,41 @@ def logout_page(request):
 
 def registration(request):
 	if(request.method == 'POST'):
-		user_reg_form = UserRegistrationForm(request.POST)
-		
-		if(reg_form.is_valid()):
+		user_reg_form = UsernameForm(request.POST)
+		pw_reg_form = PasswordForm(request.POST)	
+		if(user_reg_form.is_valid() and pw_reg_form.is_valid()):
 			User.objects.create_user(
 					# Django provides some input validation for each field.
 					# Inputs that are validated are stored in form.cleaned_data 
 					# as a dict, while raw inputs are stored in form.data 
-						username = reg_form.cleaned_data['username'],
-						password = reg_form.cleaned_data['password'],
-						email = reg_form.cleaned_data['email']
+						username = user_reg_form.cleaned_data['username'],
+						password = pw_reg_form.cleaned_data['password'],
+						email = user_reg_form.cleaned_data['email']
 					)
 			return HttpResponse('SIGNUP SUCCEEDED')
 	else:
-		reg_form = RegistrationForm()
+		user_reg_form = UsernameForm()
+		pw_reg_form = PasswordForm()
 	return render_to_response(
 			'registration/registration.html',
-			{'reg_form':reg_form},
+			{'user_reg_form':user_reg_form,
+			 'pw_reg_form':pw_reg_form},
 			context_instance=RequestContext(request)
 		)
 
+def change_password(request, username):
+	if(request.user.is_authenticated()):
+		if(request.method == 'POST'):
+			pw_form = PasswordForm(request.POST)
+			if(pw_form.is_valid()):
+				request.user.set_password(pw_form.cleaned_data['password'])
+				request.user.save()
+				return HttpResponse('PASSWORD CHANGED')
+		else:
+			pw_form = PasswordForm()
+		return render_to_response('myapp/change_password.html',
+									{'pw_form':pw_form},
+									context_instance=RequestContext(request)
+								)
+	else:
+		return HttpResponse(notAuthenticatedPage)

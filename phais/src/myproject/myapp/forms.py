@@ -11,19 +11,14 @@ class ImageForm(forms.Form):
         help_text='max. 42 megabytes'
     )
 
-class RegistrationForm(forms.Form):
+
+# All custom validation methods used in a form 
+# must have the format clean_[fieldname]
+
+class UsernameForm(forms.Form):
 	username = forms.CharField(label='Username:')
 	email = forms.EmailField(label='Email (Optional):',
 							required = False)
-	password = forms.CharField(label='Password:',
-								widget = forms.PasswordInput())
-	retyped_password = forms.CharField(label="Retype your password:",
-										widget = forms.PasswordInput())
-
-##### Custom Validation Methods Section ######
-# All custom validation methods used in a form 
-# must have the format clean_[fieldname]
-	
 	# Username Validation
 	# This method checks if the username is existed.
 	# More validation should be implemented:
@@ -40,6 +35,12 @@ class RegistrationForm(forms.Form):
 			return username
 		# return error if username is existed
 		raise forms.ValidationError('Username is already taken.')
+
+class PasswordForm(forms.Form):
+	password = forms.CharField(label='Password:',
+								widget = forms.PasswordInput())
+	retyped_password = forms.CharField(label="Retype your password:",
+										widget = forms.PasswordInput())
 
 	# Password Validation
 	# Check if retyped password matches initial password
