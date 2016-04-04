@@ -1,0 +1,1 @@
+This project is named after a legendary Vietnamese fine-art artist, Bui Xuan Phai. As the name suggested, our target is to make a software that focuses in creating artistic effects for digital images.
